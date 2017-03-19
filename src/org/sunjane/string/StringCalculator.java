@@ -1,71 +1,89 @@
 package org.sunjane.string;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 public class StringCalculator {
 	
-	public class Solution {
-	    public int calculate(String s) {
+	public static class Solution {
+	    public static int calculate(String s) {
 	        Deque<String> stack = new ArrayDeque<String>();
 	        int len = s.length();
-	        char ele;
-	        int prio = 0;
-	        int res = 0;
 	        int temp;
+	        String[] eles = s.split("\\*|\\+|/|-");
+//	        System.out.print(Arrays.toString(eles));
+	        int counter = 1; // counter for integers 
+	        stack.push(eles[0].trim());
+	        char ele;
 	        for (int i = 0; i < len; i++) {
 	        	ele = s.charAt(i);
-	        	if (ele == ' ') continue;
-	        	if (ele >= '0' && ele <= '9') {
-	        		if (stack.isEmpty()) {
-	        			stack.push(Character.toString(ele));
-	        			continue;
-	        		}
-	        		
-	        		if (prio == 1) {
-	        			if (stack.pop().charAt(0) == '*') {
-	        				temp = Integer.parseInt(stack.pop()) * 
-	        						Character.getNumericValue(ele);
-	        			} else {
-	        				temp = Integer.parseInt(stack.pop()) / 
-	        						Character.getNumericValue(ele);
-	        			}
-	        			res = temp;
-	        			stack.push(Integer.toString(temp));
-	        			prio = 0;
-	        		} else {
-	        			stack.push(Character.toString(ele));
-	        		}
-	        	} 
-	        	if (ele == '*' || ele == '/') {
-	        		prio = 1;
-	        		stack.push(Character.toString(ele));
-	        	} 
+	        	if (ele == '*') {
+	        		stack.push(String.valueOf(
+	        				Integer.parseInt(stack.pop())
+	        				* Integer.parseInt(eles[counter++].trim())));
+	        	} else if (ele == '/') {
+	        		stack.push(String.valueOf(
+	        				Integer.parseInt(stack.pop())
+	        				/ Integer.parseInt(eles[counter++].trim())));
+	        	}
 	        	if (ele == '+' || ele == '-') {
-	        		prio = 0;
 	        		stack.push(Character.toString(ele));
+	        		stack.push(eles[counter++].trim());
 	        	}
 	        		
 	        }
 
-	        int a,b;
+	        int res = 0;
+	        // remove the first element in the stack
+	        res = Integer.parseInt(stack.removeLast());
 	        while (!stack.isEmpty()) {
-	        	a = Integer.parseInt(stack.pop());
-	        	System.out.println(a);
-	            if (stack.isEmpty()) 
-	        	    return a;
-	        	if (stack.pop().charAt(0) == '+') {
-	        		b = Integer.parseInt(stack.pop());
-	        		temp = a + b;
+	        	if (stack.removeLast().charAt(0) == '+') {
+	        		res += Integer.parseInt(stack.removeLast());
 	        	} else {
-	        		b = Integer.parseInt(stack.pop());
-	        		temp = b - a;
+	        		res -= Integer.parseInt(stack.removeLast());
 	        	}
-	        	res = temp;
-
-	        	stack.push(Integer.toString(temp));
 	        }
 	        return res;
 	    }
 	}
+	
+	/*
+	 public int calculate(String s) {
+    int len;
+    if(s==null || (len = s.length())==0) return 0;
+    Stack<Integer> stack = new Stack<Integer>();
+    int num = 0;
+    char sign = '+';
+    for(int i=0;i<len;i++){
+        if(Character.isDigit(s.charAt(i))){
+            num = num*10+s.charAt(i)-'0';
+        }
+        if((!Character.isDigit(s.charAt(i)) &&' '!=s.charAt(i)) || i==len-1){
+            if(sign=='-'){
+                stack.push(-num);  // smart trick
+            }
+            if(sign=='+'){
+                stack.push(num);
+            }
+            if(sign=='*'){
+                stack.push(stack.pop()*num);
+            }
+            if(sign=='/'){
+                stack.push(stack.pop()/num);
+            }
+            sign = s.charAt(i);
+            num = 0;
+        }
+    }
+
+    int re = 0;
+    for(int i:stack){
+        re += i;
+    }
+    return re;
+}
+	 
+	 
+	  */
 }
