@@ -4,6 +4,7 @@ public class StringTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		String ip = "li2.3.4.1";
 //		System.out.println(ValidIpAddress.validIPAddress(ip));
 //		System.out.println(Reverse.reverse(1534236469));
@@ -11,6 +12,11 @@ public class StringTest {
 //		System.out.println(PascalTriangle.generate(12));
 		int[] a = {1,2,2,3};
 		System.out.println(Subsets.subsetsWithDup(a));
+=======
+		String ip = "2.3.4.1";
+		System.out.println(ValidIpAddress.validIPAddress(ip));
+		System.out.println(StringCalculator.Solution.calculate("1-1+1"));
+>>>>>>> branch 'master' of https://github.com/owen7/LeetJava.git
 	}
 
 }
