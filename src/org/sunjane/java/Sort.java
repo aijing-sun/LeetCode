@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Sort {
 		private static Scanner scanner;
 	
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 
 		scanner = new Scanner(System.in);
 //		ArrayList<Integer> arrList = new ArrayList<Integer>();
